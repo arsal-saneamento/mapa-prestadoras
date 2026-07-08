@@ -11,10 +11,6 @@
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --casal:    #2563EB;
-            --conasa:   #1E293B;
-            --brk:      #7C3AED;
-            --verde:    #059669;
             --sem:      #CBD5E1;
             --hover:    #F59E0B;
             --selected: #EF4444;
@@ -78,7 +74,7 @@
 
         .top-title {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 13px;
+            font-size: 18px;
             font-weight: 700;
             color: #003B7A;
             letter-spacing: .3px;
@@ -86,7 +82,7 @@
         }
 
         .top-sub {
-            font-size: 10px;
+            font-size: 14px;
             color: #5A7090;
             font-weight: 500;
             letter-spacing: .3px;
@@ -124,13 +120,13 @@
         /* ── MAIN LAYOUT ─────────────────────────────────── */
         .layout {
             display: grid;
-            grid-template-columns: 240px 1fr 300px;
+            grid-template-columns: 250px 1fr 300px;
             flex: 1;
             min-height: 0;
             overflow: hidden;
         }
 
-        /* ── FILTERS ─────────────────────────────────────── */
+        /* ── SIDEBAR / FILTERS ───────────────────────────── */
         .filters {
             background: var(--surface);
             border-right: 1px solid var(--border);
@@ -176,6 +172,26 @@
             font-weight: 500;
             cursor: pointer;
             color: var(--text);
+            flex: 1;
+            user-select: none;
+        }
+
+        .filter-option .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            border: 1px solid rgba(0,0,0,.12);
+        }
+
+        .filter-count {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--muted);
+            background: #F1F5F9;
+            padding: 1px 7px;
+            border-radius: 10px;
+            flex-shrink: 0;
         }
 
         .btn-clear {
@@ -200,38 +216,134 @@
             border-color: #DC2626;
         }
 
-        /* ── LEGEND ──────────────────────────────────────── */
-        .legend-divider {
-            height: 1px;
-            background: var(--border);
+        .filter-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
-        .legend h3 {
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: .8px;
+        .btn-uncheck {
+            width: 100%;
+            padding: 9px;
+            background: #F1F5F9;
             color: var(--muted);
-            margin-bottom: 10px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            font-family: inherit;
+            transition: all .15s;
+            text-transform: uppercase;
+            letter-spacing: .4px;
         }
 
-        .legend-item {
+        .btn-uncheck:hover {
+            background: #E2E8F0;
+            color: var(--text);
+            border-color: #CBD5E1;
+        }
+
+        /* ── SEARCH (busca de município) ─────────────────── */
+        .search-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-box input {
+            flex: 1;
+            width: 100%;
+            padding: 9px 58px 9px 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 13px;
+            color: var(--text);
+            background: #F8FAFC;
+            outline: none;
+            transition: border-color .15s, box-shadow .15s, background .15s;
+        }
+
+        .search-box input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(37,99,235,.12);
+            background: #fff;
+        }
+
+        .search-btns {
+            position: absolute;
+            right: 6px;
+            display: flex;
+            gap: 2px;
+        }
+
+        .search-btn {
+            width: 24px;
+            height: 24px;
+            border: none;
+            background: transparent;
+            color: var(--muted);
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background .15s, color .15s;
+        }
+
+        .search-btn:hover { background: #E2E8F0; color: var(--text); }
+
+        .search-list {
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            right: 0;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            box-shadow: 0 10px 28px rgba(15,23,42,.16);
+            max-height: 264px;
+            overflow-y: auto;
+            z-index: 60;
+            display: none;
+            list-style: none;
+            padding: 4px;
+        }
+
+        .search-list.open { display: block; }
+
+        .search-list li {
+            padding: 7px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-bottom: 6px;
-            font-size: 12px;
-            font-weight: 500;
             color: var(--text);
         }
 
-        .legend-dot {
-            width: 10px;
-            height: 10px;
+        .search-list li .dot {
+            width: 9px;
+            height: 9px;
             border-radius: 50%;
             flex-shrink: 0;
-            border: 1px solid rgba(0,0,0,.1);
+            border: 1px solid rgba(0,0,0,.12);
         }
+
+        .search-list li:hover,
+        .search-list li.ativo { background: #EFF6FF; }
+
+        .search-list li.vazio {
+            color: var(--muted);
+            cursor: default;
+            font-weight: 400;
+        }
+
+        .search-list li.vazio:hover { background: transparent; }
 
         /* ── MAP ─────────────────────────────────────────── */
         .map-wrap {
@@ -250,7 +362,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transform-origin: center center;
         }
 
         #mapa-alagoas {
@@ -259,7 +370,6 @@
             max-width: none;
             max-height: none;
             display: block;
-            filter: drop-shadow(0 4px 20px rgba(0,0,0,.12));
         }
 
         /* zoom controls */
@@ -305,11 +415,29 @@
             pointer-events: none;
         }
 
+        .data-error {
+            position: absolute;
+            top: 14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #FEF2F2;
+            color: #991B1B;
+            border: 1px solid #FECACA;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 12.5px;
+            font-weight: 600;
+            z-index: 20;
+            box-shadow: 0 4px 12px rgba(0,0,0,.08);
+            max-width: 82%;
+            text-align: center;
+        }
+
         .municipio {
             fill: var(--sem);
             stroke: #fff;
             stroke-width: 1.5;
-            transition: fill .15s, stroke .15s, stroke-width .15s;
+            transition: fill .2s, stroke .15s, stroke-width .15s, opacity .3s;
             cursor: pointer;
         }
 
@@ -326,7 +454,7 @@
         }
 
         .municipio.filtered-out {
-            opacity: .1;
+            opacity: .08;
             pointer-events: none;
         }
 
@@ -335,7 +463,7 @@
             position: fixed;
             background: rgba(15,23,42,.93);
             color: #fff;
-            padding: 6px 12px;
+            padding: 7px 12px;
             border-radius: 6px;
             font-size: 12px;
             font-weight: 600;
@@ -345,6 +473,14 @@
             z-index: 999;
             white-space: nowrap;
             font-family: 'DM Sans', sans-serif;
+        }
+
+        .tooltip small {
+            display: block;
+            font-size: 11px;
+            font-weight: 500;
+            opacity: .8;
+            margin-top: 2px;
         }
 
         .tooltip.show { opacity: 1; }
@@ -454,6 +590,17 @@
             border-left: 3px solid var(--accent);
             padding: 8px 12px;
             border-radius: 0 6px 6px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-value .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            border: 1px solid rgba(0,0,0,.15);
         }
 
         .badge {
@@ -468,13 +615,18 @@
             margin-top: 4px;
         }
 
-        .badge.regulado   { background: #D1FAE5; color: #065F46; }
+        .badge.regulado     { background: #D1FAE5; color: #065F46; }
         .badge.nao-regulado { background: #FEE2E2; color: #991B1B; }
-        .badge.bloco      { background: #DBEAFE; color: #1E40AF; }
+        .badge.bloco        { background: #DBEAFE; color: #1E40AF; }
 
         /* ── RESPONSIVE ──────────────────────────────────── */
         @media (max-width: 1100px) {
-            .layout { grid-template-columns: 200px 1fr 260px; }
+            .layout { grid-template-columns: 210px 1fr 260px; }
+        }
+
+        @media (max-width: 900px) {
+            .top-title { white-space: normal; font-size: 12px; }
+            .layout { grid-template-columns: 190px 1fr 230px; }
         }
     </style>
 </head>
@@ -483,13 +635,15 @@
 
     <div class="top-bar">
   <div class="logo-area">
-    <img src="img/arsal.png" alt="ARSAL" style="height:44px;width:auto;object-fit:contain;">
+    <img src="img/arsal.png" alt="ARSAL" style="height:44px;width:auto;object-fit:contain;"
+         onerror="this.style.display='none';var d=document.querySelector('.logo-divider');if(d)d.style.display='none';">
     <div class="logo-divider"></div>
-    <img src="img/gov.png" alt="Governo de Alagoas" style="height:48px;width:auto;object-fit:contain;">
+    <img src="img/gov.png" alt="Governo de Alagoas" style="height:48px;width:auto;object-fit:contain;"
+         onerror="this.style.display='none';var d=document.querySelector('.logo-divider');if(d)d.style.display='none';">
   </div>
   <div class="top-center">
     <span class="top-title">Mapa de Prestação de Serviços de Saneamento</span>
-    <span class="top-sub">Superintendência Técnica de Regulação e Fiscalização de Saneamento (SUPSAN) </span>
+    <span class="top-sub">Superintendência Técnica de Regulação e Fiscalização de Saneamento (SUPSAN)</span>
   </div>
   <div class="top-stats">
     <div class="top-stat">
@@ -508,66 +662,38 @@
 </div>
 
     <div class="layout">
-        <!-- Filters -->
+        <!-- Sidebar: busca + filtros (gerados automaticamente a partir de dados.js) -->
         <aside class="filters">
             <div class="filter-group">
+                <h3>Buscar Município</h3>
+                <div class="search-box" id="search-box">
+                    <input type="text" id="search-input" placeholder="Digite ou selecione…" autocomplete="off" spellcheck="false">
+                    <div class="search-btns">
+                        <button class="search-btn" id="search-clear" title="Limpar busca" hidden>✕</button>
+                        <button class="search-btn" id="search-toggle" title="Ver lista completa">▾</button>
+                    </div>
+                    <ul class="search-list" id="search-list"></ul>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <h3>Prestadora · Distribuição</h3>
+                <div id="filtros-prestadora"></div>
+            </div>
+
+            <div class="filter-group">
                 <h3>Bloco</h3>
-                <div class="filter-option">
-                    <input type="checkbox" id="bloco-a" value="Bloco A" checked>
-                    <label for="bloco-a">Bloco A</label>
-                </div>
-                <div class="filter-option">
-                    <input type="checkbox" id="bloco-b" value="Bloco B" checked>
-                    <label for="bloco-b">Bloco B</label>
-                </div>
-                <div class="filter-option">
-                    <input type="checkbox" id="bloco-c" value="Bloco C" checked>
-                    <label for="bloco-c">Bloco C</label>
-                </div>
-                <div class="filter-option">
-                    <input type="checkbox" id="bloco-sem" value="Sem Bloco" checked>
-                    <label for="bloco-sem">Sem Bloco</label>
-                </div>
+                <div id="filtros-bloco"></div>
             </div>
 
             <div class="filter-group">
                 <h3>Regulação</h3>
-                <div class="filter-option">
-                    <input type="checkbox" id="reg-regulado" value="Regulado" checked>
-                    <label for="reg-regulado">Regulado</label>
-                </div>
-                <div class="filter-option">
-                    <input type="checkbox" id="reg-nao" value="Não Regulado" checked>
-                    <label for="reg-nao">Não regulado</label>
-                </div>
+                <div id="filtros-regulacao"></div>
             </div>
 
-            <button class="btn-clear" onclick="limparFiltros()">Limpar Filtros</button>
-
-            <div class="legend-divider"></div>
-
-            <div class="legend">
-                <h3>Prestadoras</h3>
-                <div class="legend-item">
-                    <div class="legend-dot" style="background:#2563EB"></div>
-                    <span>CASAL</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-dot" style="background:#1E293B"></div>
-                    <span>Conasa</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-dot" style="background:#7C3AED"></div>
-                    <span>BRK Ambiental</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-dot" style="background:#059669"></div>
-                    <span>Verde Ambiental</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-dot" style="background:#CBD5E1"></div>
-                    <span>Sem dados</span>
-                </div>
+            <div class="filter-actions">
+                <button class="btn-clear" id="btn-limpar">Limpar Filtros</button>
+                <button class="btn-uncheck" id="btn-desmarcar">Desmarcar Todos</button>
             </div>
         </aside>
 
@@ -680,12 +806,17 @@
             </svg>
             </div><!-- end map-canvas -->
 
+            <div class="data-error" id="data-error" hidden>
+                ⚠ Arquivo <strong>dados.js</strong> não encontrado. Coloque-o na mesma pasta do
+                <strong>index.html</strong> para carregar os dados dos municípios.
+            </div>
+
             <div class="zoom-controls">
-                <button class="zoom-btn" id="btn-zoom-in" title="Zoom in">+</button>
-                <button class="zoom-btn" id="btn-zoom-out" title="Zoom out">−</button>
+                <button class="zoom-btn" id="btn-zoom-in" title="Aproximar">+</button>
+                <button class="zoom-btn" id="btn-zoom-out" title="Afastar">−</button>
                 <button class="zoom-btn" id="btn-zoom-reset" title="Resetar zoom" style="font-size:11px;font-weight:700;">⟳</button>
             </div>
-            <span class="zoom-hint">Scroll para zoom · Arraste para mover</span>
+            <span class="zoom-hint">Scroll para zoom · Arraste para mover · Duplo clique aproxima</span>
         </main>
 
         <!-- Info Panel -->
@@ -695,28 +826,28 @@
                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
                     <circle cx="12" cy="10" r="3"/>
                 </svg>
-                <p>Clique em um município no mapa para ver os dados de saneamento</p>
+                <p>Clique em um município no mapa ou use a busca para ver os dados de saneamento</p>
             </div>
 
             <div class="info-content" id="info-content">
                 <h2 class="info-name">
                     <span id="municipio-nome">-</span>
-                    <button class="btn-fechar" id="btn-fechar" title="Fechar" onclick="desselecionarMunicipio()">✕</button>
+                    <button class="btn-fechar" id="btn-fechar" title="Fechar">✕</button>
                 </h2>
 
                 <div class="info-section">
                     <h4>Prestadora - Produção de Água</h4>
-                    <div class="info-value" id="prestadora-producao">-</div>
+                    <div class="info-value"><span class="dot" id="dot-producao"></span><span id="prestadora-producao">-</span></div>
                 </div>
 
                 <div class="info-section">
                     <h4>Prestadora - Distribuição de Água</h4>
-                    <div class="info-value" id="prestadora-distribuicao">-</div>
+                    <div class="info-value"><span class="dot" id="dot-distribuicao"></span><span id="prestadora-distribuicao">-</span></div>
                 </div>
 
                 <div class="info-section">
                     <h4>Prestadora - Esgotamento Sanitário</h4>
-                    <div class="info-value" id="prestadora-esgoto">-</div>
+                    <div class="info-value"><span class="dot" id="dot-esgoto"></span><span id="prestadora-esgoto">-</span></div>
                 </div>
 
                 <div class="info-section">
@@ -732,877 +863,273 @@
         </aside>
     </div>
 
-    <script>
-        const dadosMunicipios = [
-            {
-                municipio: "Água Branca",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Anadia",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Verde Ambiental",
-                prestadora_esgoto: "Verde Ambiental",
-                bloco: "Bloco C",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Arapiraca",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Casal",
-                prestadora_esgoto: "Sem informação",
-                bloco: "Sem Bloco",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Atalaia",
-                prestadora_producao: "BRK Ambiental",
-                prestadora_distribuicao: "BRK Ambiental",
-                prestadora_esgoto: "BRK Ambiental",
-                bloco: "Bloco A",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Barra de Santo Antônio",
-                prestadora_producao: "BRK Ambiental",
-                prestadora_distribuicao: "BRK Ambiental",
-                prestadora_esgoto: "BRK Ambiental",
-                bloco: "Bloco A",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Barra de São Miguel",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "BRK Ambiental",
-                prestadora_esgoto: "BRK Ambiental",
-                bloco: "Bloco A",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Batalha",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Belém",
-                prestadora_producao: "Sem informação",
-                prestadora_distribuicao: "Sem informação",
-                prestadora_esgoto: "Sem informação",
-                bloco: "Sem Bloco",
-                regulacao: "Não Regulado"
-            },
-            {
-                municipio: "Belo Monte",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Boca da Mata",
-                prestadora_producao: "Sem informação",
-                prestadora_distribuicao: "Sem informação",
-                prestadora_esgoto: "Sem informação",
-                bloco: "Sem Bloco",
-                regulacao: "Não Regulado"
-            },
-            {
-                municipio: "Branquinha",
-                prestadora_producao: "Verde Ambiental",
-                prestadora_distribuicao: "Verde Ambiental",
-                prestadora_esgoto: "Verde Ambiental",
-                bloco: "Bloco C",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Cacimbinhas",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Cajueiro",
-                prestadora_producao: "Sem informação",
-                prestadora_distribuicao: "Sem informação",
-                prestadora_esgoto: "Sem informação",
-                bloco: "Sem Bloco",
-                regulacao: "Não Regulado"
-            },
-            {
-                municipio: "Campestre",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Verde Ambiental",
-                prestadora_esgoto: "Verde Ambiental",
-                bloco: "Bloco C",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Campo Alegre",
-                prestadora_producao: "Sem informação",
-                prestadora_distribuicao: "Sem informação",
-                prestadora_esgoto: "Sem informação",
-                bloco: "Sem Bloco",
-                regulacao: "Não Regulado"
-            },
-            {
-                municipio: "Campo Grande",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Canapi",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Casal",
-                prestadora_esgoto: "Sem informação",
-                bloco: "Sem Bloco",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Capela",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Verde Ambiental",
-                prestadora_esgoto: "Verde Ambiental",
-                bloco: "Bloco C",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Carneiros",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Chã Preta",
-                prestadora_producao: "Verde Ambiental",
-                prestadora_distribuicao: "Verde Ambiental",
-                prestadora_esgoto: "Verde Ambiental",
-                bloco: "Bloco C",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Coité do Nóia",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Casal",
-                prestadora_esgoto: "Sem informação",
-                bloco: "Sem Bloco",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Colônia Leopoldina",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Verde Ambiental",
-                prestadora_esgoto: "Verde Ambiental",
-                bloco: "Bloco C",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Coqueiro Seco",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "BRK Ambiental",
-                prestadora_esgoto: "BRK Ambiental",
-                bloco: "Bloco A",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Coruripe",
-                prestadora_producao: "Sem informação",
-                prestadora_distribuicao: "Sem informação",
-                prestadora_esgoto: "Sem informação",
-                bloco: "Sem Bloco",
-                regulacao: "Não Regulado"
-            },
-            {
-                municipio: "Craíbas",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Casal",
-                prestadora_esgoto: "Sem informação",
-                bloco: "Sem Bloco",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Delmiro Gouveia",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Dois Riachos",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Estrela de Alagoas",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Casal",
-                prestadora_esgoto: "Casal",
-                bloco: "Sem Bloco",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Feira Grande",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Feliz Deserto",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Verde Ambiental",
-                prestadora_esgoto: "Verde Ambiental",
-                bloco: "Bloco C",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Flexeiras",
-                prestadora_producao: "Sem informação",
-                prestadora_distribuicao: "Sem informação",
-                prestadora_esgoto: "Sem informação",
-                bloco: "Sem Bloco",
-                regulacao: "Não Regulado"
-            },
-            {
-                municipio: "Girau do Ponciano",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Casal",
-                prestadora_esgoto: "Sem informação",
-                bloco: "Sem Bloco",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Ibateguara",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Verde Ambiental",
-                prestadora_esgoto: "Verde Ambiental",
-                bloco: "Bloco C",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Igaci",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Igreja Nova",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Inhapi",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Jacaré dos Homens",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Jacuípe",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Verde Ambiental",
-                prestadora_esgoto: "Verde Ambiental",
-                bloco: "Bloco C",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Japaratinga",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Verde Ambiental",
-                prestadora_esgoto: "Verde Ambiental",
-                bloco: "Bloco C",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Jaramataia",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Jequiá da Praia",
-                prestadora_producao: "Sem informação",
-                prestadora_distribuicao: "Sem informação",
-                prestadora_esgoto: "Sem informação",
-                bloco: "Sem Bloco",
-                regulacao: "Não Regulado"
-            },
-            {
-                municipio: "Joaquim Gomes",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Verde Ambiental",
-                prestadora_esgoto: "Verde Ambiental",
-                bloco: "Bloco C",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Jundiá",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Verde Ambiental",
-                prestadora_esgoto: "Verde Ambiental",
-                bloco: "Bloco C",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Junqueiro",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Lagoa da Canoa",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Casal",
-                prestadora_esgoto: "Sem informação",
-                bloco: "Sem Bloco",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Limoeiro de Anadia",
-                prestadora_producao: "Sem informação",
-                prestadora_distribuicao: "Sem informação",
-                prestadora_esgoto: "Sem informação",
-                bloco: "Sem Bloco",
-                regulacao: "Não Regulado"
-            },
-            {
-                municipio: "Maceió",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "BRK Ambiental",
-                prestadora_esgoto: "BRK Ambiental",
-                bloco: "Bloco A",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Major Isidoro",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Maragogi",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Verde Ambiental",
-                prestadora_esgoto: "Verde Ambiental",
-                bloco: "Bloco C",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Maravilha",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Marechal Deodoro",
-                prestadora_producao: "BRK Ambiental",
-                prestadora_distribuicao: "BRK Ambiental",
-                prestadora_esgoto: "BRK Ambiental",
-                bloco: "Bloco A",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Maribondo",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Verde Ambiental",
-                prestadora_esgoto: "Verde Ambiental",
-                bloco: "Bloco C",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Mar Vermelho",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Verde Ambiental",
-                prestadora_esgoto: "Verde Ambiental",
-                bloco: "Bloco C",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Mata Grande",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Matriz de Camaragibe",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Verde Ambiental",
-                prestadora_esgoto: "Verde Ambiental",
-                bloco: "Bloco C",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Messias",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "BRK Ambiental",
-                prestadora_esgoto: "BRK Ambiental",
-                bloco: "Bloco A",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Minador do Negrão",
-                prestadora_producao: "Sem informação",
-                prestadora_distribuicao: "Sem informação",
-                prestadora_esgoto: "Sem informação",
-                bloco: "Sem Bloco",
-                regulacao: "Não Regulado"
-            },
-            {
-                municipio: "Monteirópolis",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Murici",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "BRK Ambiental",
-                prestadora_esgoto: "BRK Ambiental",
-                bloco: "Bloco A",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Novo Lino",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Verde Ambiental",
-                prestadora_esgoto: "Verde Ambiental",
-                bloco: "Bloco C",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Olho d'Água das Flores",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Olho d'Água do Casado",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Olho d'Água Grande",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Olivença",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Ouro Branco",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Palestina",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Palmeira dos Índios",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Pão de Açúcar",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Pariconha",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Paripueira",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "BRK Ambiental",
-                prestadora_esgoto: "BRK Ambiental",
-                bloco: "Bloco A",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Passo de Camaragibe",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Verde Ambiental",
-                prestadora_esgoto: "Verde Ambiental",
-                bloco: "Bloco C",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Paulo Jacinto",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Verde Ambiental",
-                prestadora_esgoto: "Verde Ambiental",
-                bloco: "Bloco C",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Penedo",
-                prestadora_producao: "Conasa",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Piaçabuçu",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Pilar",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "BRK Ambiental",
-                prestadora_esgoto: "BRK Ambiental",
-                bloco: "Bloco A",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Pindoba",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Verde Ambiental",
-                prestadora_esgoto: "Verde Ambiental",
-                bloco: "Bloco C",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Piranhas",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Poço das Trincheiras",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Porto Calvo",
-                prestadora_producao: "Verde Ambiental",
-                prestadora_distribuicao: "Verde Ambiental",
-                prestadora_esgoto: "Verde Ambiental",
-                bloco: "Bloco C",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Porto de Pedras",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Verde Ambiental",
-                prestadora_esgoto: "Verde Ambiental",
-                bloco: "Bloco C",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Porto Real do Colégio",
-                prestadora_producao: "Conasa",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Quebrangulo",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Rio Largo",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "BRK Ambiental",
-                prestadora_esgoto: "BRK Ambiental",
-                bloco: "Bloco A",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Roteiro",
-                prestadora_producao: "Sem informação",
-                prestadora_distribuicao: "Sem informação",
-                prestadora_esgoto: "Sem informação",
-                bloco: "Sem Bloco",
-                regulacao: "Não Regulado"
-            },
-            {
-                municipio: "Santa Luzia do Norte",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "BRK Ambiental",
-                prestadora_esgoto: "BRK Ambiental",
-                bloco: "Bloco A",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Santana do Ipanema",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Santana do Mundaú",
-                prestadora_producao: "Sem informação",
-                prestadora_distribuicao: "Sem informação",
-                prestadora_esgoto: "Sem informação",
-                bloco: "Sem Bloco",
-                regulacao: "Não Regulado"
-            },
-            {
-                municipio: "São Brás",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "São José da Laje",
-                prestadora_producao: "Sem informação",
-                prestadora_distribuicao: "Sem informação",
-                prestadora_esgoto: "Sem informação",
-                bloco: "Sem Bloco",
-                regulacao: "Não Regulado"
-            },
-            {
-                municipio: "São José da Tapera",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "São Luís do Quitunde",
-                prestadora_producao: "Verde Ambiental",
-                prestadora_distribuicao: "Verde Ambiental",
-                prestadora_esgoto: "Verde Ambiental",
-                bloco: "Bloco C",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "São Miguel dos Campos",
-                prestadora_producao: "Conasa",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "São Miguel dos Milagres",
-                prestadora_producao: "Verde Ambiental",
-                prestadora_distribuicao: "Verde Ambiental",
-                prestadora_esgoto: "Verde Ambiental",
-                bloco: "Bloco C",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "São Sebastião",
-                prestadora_producao: "Sem informação",
-                prestadora_distribuicao: "Sem informação",
-                prestadora_esgoto: "Sem informação",
-                bloco: "Sem Bloco",
-                regulacao: "Não Regulado"
-            },
-            {
-                municipio: "Satuba",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "BRK Ambiental",
-                prestadora_esgoto: "BRK Ambiental",
-                bloco: "Bloco A",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Senador Rui Palmeira",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Tanque d'Arca",
-                prestadora_producao: "Verde Ambiental",
-                prestadora_distribuicao: "Verde Ambiental",
-                prestadora_esgoto: "Verde Ambiental",
-                bloco: "Bloco C",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Taquarana",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Verde Ambiental",
-                prestadora_esgoto: "Verde Ambiental",
-                bloco: "Bloco C",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Teotônio Vilela",
-                prestadora_producao: "Sem informação",
-                prestadora_distribuicao: "Sem informação",
-                prestadora_esgoto: "Sem informação",
-                bloco: "Sem Bloco",
-                regulacao: "Não Regulado"
-            },
-            {
-                municipio: "Traipu",
-                prestadora_producao: "Casal",
-                prestadora_distribuicao: "Conasa",
-                prestadora_esgoto: "Conasa",
-                bloco: "Bloco B",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "União dos Palmares",
-                prestadora_producao: "Verde Ambiental",
-                prestadora_distribuicao: "Verde Ambiental",
-                prestadora_esgoto: "Verde Ambiental",
-                bloco: "Bloco C",
-                regulacao: "Regulado"
-            },
-            {
-                municipio: "Viçosa",
-                prestadora_producao: "Sem informação",
-                prestadora_distribuicao: "Sem informação",
-                prestadora_esgoto: "Sem informação",
-                bloco: "Sem Bloco",
-                regulacao: "Não Regulado"
-            }
-            ];
+    <!-- Dados dos municípios: para atualizar o mapa, edite APENAS o arquivo dados.js -->
+    <script src="dados.js"></script>
 
-        const coresPrestadoras = {
-            'Casal': '#2563EB',
-            'CASAL': '#2563EB',
-            'Conasa Águas do Sertão': '#1E293B',
-            'Conasa': '#1E293B',
-            'BRK Ambiental': '#7C3AED',
-            'BRK': '#7C3AED',
-            'Verde Ambiental': '#059669',
-            'Verde': '#059669',
-            'default': '#CBD5E1'
+    <script>
+        'use strict';
+
+        /* ════════════════════════════════════════════════════════════
+           DADOS — carregados de dados.js (PRESTADORAS e DADOS_MUNICIPIOS)
+           ════════════════════════════════════════════════════════════ */
+        const temDados = typeof DADOS_MUNICIPIOS !== 'undefined' && typeof PRESTADORAS !== 'undefined';
+        const DADOS = temDados ? DADOS_MUNICIPIOS : {};
+        const CFG_PRESTADORAS = temDados ? PRESTADORAS : { 'Sem informação': { cor: '#CBD5E1', rotulo: 'Sem dados' } };
+
+        const SEM_INFO   = 'Sem informação';
+        const BLOCOS     = ['Bloco A', 'Bloco B', 'Bloco C', 'Sem Bloco'];
+        const REGULACOES = ['Regulado', 'Não Regulado'];
+        const REGISTRO_PADRAO = {
+            producao: SEM_INFO, distribuicao: SEM_INFO, esgoto: SEM_INFO,
+            bloco: 'Sem Bloco', regulacao: 'Não Regulado'
         };
 
-        let municipioSelecionado = null;
+        // remove acentos + minúsculas: busca e comparação tolerantes
+        const normalizar = s => (s || '').normalize('NFD').replace(/\p{M}/gu, '').toLowerCase().trim();
+
+        // índice de prestadoras por nome normalizado ("CASAL" e "casal" funcionam)
+        const idxPrestadoras = {};
+        Object.keys(CFG_PRESTADORAS).forEach(k => { idxPrestadoras[normalizar(k)] = k; });
+
+        const prestadoraCanonica = nome => idxPrestadoras[normalizar(nome)] || null;
+        const corPrestadora = nome => {
+            const c = prestadoraCanonica(nome);
+            if (c) return CFG_PRESTADORAS[c].cor;
+            return (CFG_PRESTADORAS[SEM_INFO] && CFG_PRESTADORAS[SEM_INFO].cor) || '#CBD5E1';
+        };
+
+        const dadosDe       = nome => DADOS[nome] || REGISTRO_PADRAO;
+        const blocoDe       = d => BLOCOS.includes(d.bloco) ? d.bloco : 'Sem Bloco';
+        const regulacaoDe   = d => d.regulacao === 'Regulado' ? 'Regulado' : 'Não Regulado';
+        const distribuidoraDe = d => prestadoraCanonica(d.distribuicao) || SEM_INFO;
+
+        /* ── elementos do mapa ── */
+        const paths = Array.from(document.querySelectorAll('.municipio'));
+        const municipios = paths.map(p => p.getAttribute('data-municipio'))
+                                .sort((a, b) => a.localeCompare(b, 'pt-BR'));
+        const pathDe = nome => paths.find(p => p.getAttribute('data-municipio') === nome) || null;
+
         const tooltip = document.getElementById('tooltip');
+        let municipioSelecionado = null;
 
+        /* ════════════════════════════════════════════════════════════
+           INICIALIZAÇÃO
+           ════════════════════════════════════════════════════════════ */
         function inicializarApp() {
+            if (!temDados) document.getElementById('data-error').hidden = false;
             colorirMunicipios();
+            construirFiltros();
             adicionarEventosMunicipios();
-            adicionarEventosFiltros();
+            inicializarBusca();
             atualizarEstatisticas();
-            inicializarZoom();
-        }
+            mapa.init();
 
+            document.getElementById('btn-fechar').addEventListener('click', () => desselecionarMunicipio());
+            document.getElementById('btn-limpar').addEventListener('click', limparFiltros);
+            document.getElementById('btn-desmarcar').addEventListener('click', desmarcarTodos);
+            document.addEventListener('keydown', e => {
+                if (e.key === 'Escape') { fecharListaBusca(); desselecionarMunicipio(); }
+            });
+        }
+        document.addEventListener('DOMContentLoaded', inicializarApp);
+
+        /* ════════════════════════════════════════════════════════════
+           CORES
+           ════════════════════════════════════════════════════════════ */
         function colorirMunicipios() {
-            document.querySelectorAll('.municipio').forEach(el => {
-                const nome = el.getAttribute('data-municipio');
-                const dados = dadosMunicipios.find(m => m.municipio === nome);
-                if (dados) {
-                    const cor = coresPrestadoras[dados.prestadora_distribuicao] || coresPrestadoras.default;
-                    el.style.fill = cor;
-                } else {
-                    el.style.fill = coresPrestadoras.default;
-                }
+            paths.forEach(el => {
+                const d = dadosDe(el.getAttribute('data-municipio'));
+                el.style.fill = corPrestadora(d.distribuicao);
             });
         }
 
-        function desselecionarMunicipio() {
-            document.querySelectorAll('.municipio').forEach(m => m.classList.remove('selected'));
+        /* ════════════════════════════════════════════════════════════
+           FILTROS — gerados automaticamente a partir de dados.js
+           ════════════════════════════════════════════════════════════ */
+        function criarOpcaoFiltro(container, grupo, valor, rotulo, cor, qtd) {
+            const idSeguro = grupo + '-' + normalizar(valor).replace(/[^a-z0-9]+/g, '-');
+            const div = document.createElement('div');
+            div.className = 'filter-option';
+
+            const cb = document.createElement('input');
+            cb.type = 'checkbox';
+            cb.id = idSeguro;
+            cb.checked = true;
+            cb.dataset.grupo = grupo;
+            cb.dataset.valor = valor;
+            cb.addEventListener('change', aplicarFiltros);
+            div.appendChild(cb);
+
+            if (cor) {
+                const dot = document.createElement('span');
+                dot.className = 'dot';
+                dot.style.background = cor;
+                div.appendChild(dot);
+            }
+
+            const label = document.createElement('label');
+            label.htmlFor = idSeguro;
+            label.textContent = rotulo;
+            div.appendChild(label);
+
+            const badge = document.createElement('span');
+            badge.className = 'filter-count';
+            badge.textContent = qtd;
+            div.appendChild(badge);
+
+            container.appendChild(div);
+        }
+
+        function construirFiltros() {
+            const contar = fn => {
+                const c = {};
+                paths.forEach(p => {
+                    const chave = fn(dadosDe(p.getAttribute('data-municipio')));
+                    c[chave] = (c[chave] || 0) + 1;
+                });
+                return c;
+            };
+
+            const porPrestadora = contar(distribuidoraDe);
+            const porBloco      = contar(blocoDe);
+            const porRegulacao  = contar(regulacaoDe);
+
+            const elP = document.getElementById('filtros-prestadora');
+            Object.keys(CFG_PRESTADORAS).forEach(nome => {
+                const cfg = CFG_PRESTADORAS[nome];
+                criarOpcaoFiltro(elP, 'prestadora', nome, cfg.rotulo || nome, cfg.cor, porPrestadora[nome] || 0);
+            });
+
+            const elB = document.getElementById('filtros-bloco');
+            BLOCOS.forEach(b => criarOpcaoFiltro(elB, 'bloco', b, b, null, porBloco[b] || 0));
+
+            const elR = document.getElementById('filtros-regulacao');
+            REGULACOES.forEach(r => criarOpcaoFiltro(elR, 'regulacao', r, r, null, porRegulacao[r] || 0));
+        }
+
+        const valoresMarcados = grupo => new Set(
+            Array.from(document.querySelectorAll('input[data-grupo="' + grupo + '"]:checked'))
+                 .map(cb => cb.dataset.valor)
+        );
+
+        function aplicarFiltros() {
+            const ps = valoresMarcados('prestadora');
+            const bs = valoresMarcados('bloco');
+            const rs = valoresMarcados('regulacao');
+            let visiveis = 0;
+
+            paths.forEach(el => {
+                const d = dadosDe(el.getAttribute('data-municipio'));
+                const mostrar = ps.has(distribuidoraDe(d)) && bs.has(blocoDe(d)) && rs.has(regulacaoDe(d));
+                el.classList.toggle('filtered-out', !mostrar);
+                if (mostrar) visiveis++;
+            });
+
+            document.getElementById('municipios-filtrados').textContent = visiveis;
+
+            // se o município selecionado saiu do filtro, fecha o painel (sem mexer no zoom)
+            if (municipioSelecionado) {
+                const sel = pathDe(municipioSelecionado);
+                if (sel && sel.classList.contains('filtered-out')) desselecionarMunicipio(false);
+            }
+        }
+
+        function limparFiltros() {
+            document.querySelectorAll('.filter-option input[type="checkbox"]').forEach(cb => { cb.checked = true; });
+            aplicarFiltros();
+            desselecionarMunicipio(false); // limpa seleção/busca sem animar aqui
+            mapa.resetar();                // recentraliza o mapa na posição inicial
+        }
+
+        function desmarcarTodos() {
+            document.querySelectorAll('.filter-option input[type="checkbox"]').forEach(cb => { cb.checked = false; });
+            aplicarFiltros();
+        }
+
+        function atualizarEstatisticas() {
+            const regulados = paths.filter(p =>
+                regulacaoDe(dadosDe(p.getAttribute('data-municipio'))) === 'Regulado').length;
+            document.getElementById('total-municipios').textContent = paths.length;
+            document.getElementById('municipios-filtrados').textContent = paths.length;
+            document.getElementById('municipios-regulados').textContent = regulados;
+        }
+
+        /* ════════════════════════════════════════════════════════════
+           SELEÇÃO E PAINEL DE INFORMAÇÕES
+           ════════════════════════════════════════════════════════════ */
+        function selecionarMunicipio(nome) {
+            paths.forEach(m => m.classList.remove('selected'));
+            const el = pathDe(nome);
+            if (el) el.classList.add('selected');
+
+            const d = dadosDe(nome);
+
+            document.getElementById('info-placeholder').style.display = 'none';
+            const content = document.getElementById('info-content');
+            content.classList.remove('active');
+            void content.offsetWidth; // reinicia a animação
+            content.classList.add('active');
+
+            document.getElementById('municipio-nome').textContent = nome;
+            preencherPrestadora('prestadora-producao',     'dot-producao',     d.producao);
+            preencherPrestadora('prestadora-distribuicao', 'dot-distribuicao', d.distribuicao);
+            preencherPrestadora('prestadora-esgoto',       'dot-esgoto',       d.esgoto);
+            document.getElementById('bloco-badge').textContent = blocoDe(d);
+
+            const reg = document.getElementById('regulacao-badge');
+            reg.textContent = regulacaoDe(d);
+            reg.className = 'badge ' + (regulacaoDe(d) === 'Regulado' ? 'regulado' : 'nao-regulado');
+
+            municipioSelecionado = nome;
+
+            // sincroniza o campo de busca
+            const input = document.getElementById('search-input');
+            input.value = nome;
+            atualizarBotaoLimparBusca();
+        }
+
+        function preencherPrestadora(idTexto, idDot, valor) {
+            const canonico = prestadoraCanonica(valor);
+            const rotulo = canonico ? (CFG_PRESTADORAS[canonico].rotulo || canonico) : (valor || SEM_INFO);
+            document.getElementById(idTexto).textContent = rotulo;
+            document.getElementById(idDot).style.background = corPrestadora(valor);
+        }
+
+        function desselecionarMunicipio(resetarVista = true) {
+            const tinhaSelecao = municipioSelecionado !== null;
+            paths.forEach(m => m.classList.remove('selected'));
             document.getElementById('info-placeholder').style.display = '';
             document.getElementById('info-content').classList.remove('active');
             municipioSelecionado = null;
+
+            const input = document.getElementById('search-input');
+            input.value = '';
+            atualizarBotaoLimparBusca();
+
+            // ao fechar o município, o mapa volta à posição inicial
+            if (resetarVista && tinhaSelecao) mapa.resetar();
         }
 
+        /* ════════════════════════════════════════════════════════════
+           EVENTOS DO MAPA (clique, tooltip)
+           ════════════════════════════════════════════════════════════ */
         function adicionarEventosMunicipios() {
-            document.querySelectorAll('.municipio').forEach(el => {
-                el.addEventListener('click', function(e) {
+            paths.forEach(el => {
+                el.addEventListener('click', function (e) {
                     e.stopPropagation();
+                    if (mapa.foiArrasto()) return; // ignora o "clique" gerado ao soltar um arrasto
                     selecionarMunicipio(this.getAttribute('data-municipio'));
                 });
-                el.addEventListener('mouseenter', function(e) {
-                    tooltip.textContent = this.getAttribute('data-municipio');
+                el.addEventListener('mouseenter', function (e) {
+                    const nome = this.getAttribute('data-municipio');
+                    const d = dadosDe(nome);
+                    const canonico = distribuidoraDe(d);
+                    const rotulo = (CFG_PRESTADORAS[canonico] && CFG_PRESTADORAS[canonico].rotulo) || canonico;
+                    tooltip.innerHTML = '';
+                    tooltip.appendChild(document.createTextNode(nome));
+                    const sub = document.createElement('small');
+                    sub.textContent = 'Distribuição: ' + rotulo;
+                    tooltip.appendChild(sub);
                     tooltip.classList.add('show');
                     moverTooltip(e);
                 });
@@ -1610,213 +1137,390 @@
                 el.addEventListener('mouseleave', () => tooltip.classList.remove('show'));
             });
 
-            // Clicar no fundo do mapa (fora de um município) desseleciona
-            document.getElementById('map-wrap').addEventListener('click', function() {
+            // clique no fundo do mapa (fora de um município) desseleciona — mas não após arrasto
+            document.getElementById('map-wrap').addEventListener('click', function () {
+                if (mapa.foiArrasto()) return;
                 if (municipioSelecionado) desselecionarMunicipio();
             });
         }
 
         function moverTooltip(e) {
-            tooltip.style.left = (e.clientX + 14) + 'px';
-            tooltip.style.top  = (e.clientY + 14) + 'px';
+            const margem = 14;
+            let x = e.clientX + margem;
+            let y = e.clientY + margem;
+            // não deixa o tooltip sair da tela
+            const r = tooltip.getBoundingClientRect();
+            if (x + r.width  > window.innerWidth  - 8) x = e.clientX - r.width  - margem;
+            if (y + r.height > window.innerHeight - 8) y = e.clientY - r.height - margem;
+            tooltip.style.left = x + 'px';
+            tooltip.style.top  = y + 'px';
         }
 
-        function selecionarMunicipio(nome) {
-            document.querySelectorAll('.municipio').forEach(m => m.classList.remove('selected'));
-            const el = document.querySelector(`[data-municipio="${nome}"]`);
-            if (el) el.classList.add('selected');
+        /* ════════════════════════════════════════════════════════════
+           BUSCA — campo com autocomplete + lista suspensa completa
+           ════════════════════════════════════════════════════════════ */
+        const inputBusca = document.getElementById('search-input');
+        const listaBusca = document.getElementById('search-list');
+        const btnToggle  = document.getElementById('search-toggle');
+        const btnLimparBusca = document.getElementById('search-clear');
+        let itensBusca = [];
+        let idxAtivo = -1;
 
-            const dados = dadosMunicipios.find(m => m.municipio === nome) || {
-                municipio: nome,
-                prestadora_producao: "Sem dados disponíveis",
-                prestadora_distribuicao: "Sem dados disponíveis",
-                prestadora_esgoto: "Sem dados disponíveis",
-                bloco: "Sem Bloco",
-                regulacao: "Não Regulado"
-            };
-
-            document.getElementById('info-placeholder').style.display = 'none';
-            const content = document.getElementById('info-content');
-            content.classList.remove('active');
-            void content.offsetWidth;
-            content.classList.add('active');
-
-            document.getElementById('municipio-nome').textContent = dados.municipio;
-            document.getElementById('prestadora-producao').textContent = dados.prestadora_producao;
-            document.getElementById('prestadora-distribuicao').textContent = dados.prestadora_distribuicao;
-            document.getElementById('prestadora-esgoto').textContent = dados.prestadora_esgoto;
-            document.getElementById('bloco-badge').textContent = dados.bloco;
-
-            const reg = document.getElementById('regulacao-badge');
-            reg.textContent = dados.regulacao;
-            reg.className = 'badge ' + (dados.regulacao === 'Regulado' ? 'regulado' : 'nao-regulado');
-
-            municipioSelecionado = nome;
+        function atualizarBotaoLimparBusca() {
+            btnLimparBusca.hidden = inputBusca.value.length === 0;
         }
 
-        function adicionarEventosFiltros() {
-            document.querySelectorAll('.filter-option input[type="checkbox"]').forEach(cb => {
-                cb.addEventListener('change', aplicarFiltros);
-            });
-        }
+        function renderizarListaBusca(filtro) {
+            const q = normalizar(filtro);
+            itensBusca = q ? municipios.filter(m => normalizar(m).includes(q)) : municipios.slice();
+            idxAtivo = -1;
+            listaBusca.innerHTML = '';
 
-        function aplicarFiltros() {
-            const blocos = Array.from(document.querySelectorAll('[id^="bloco-"]:checked')).map(cb => cb.value);
-            const regs   = Array.from(document.querySelectorAll('[id^="reg-"]:checked')).map(cb => cb.value);
-            let count = 0;
-
-            document.querySelectorAll('.municipio').forEach(el => {
-                const nome = el.getAttribute('data-municipio');
-                const dados = dadosMunicipios.find(m => m.municipio === nome);
-
-                let show = false;
-                if (dados) {
-                    show = blocos.includes(dados.bloco) && regs.includes(dados.regulacao);
-                } else {
-                    show = blocos.includes('Sem Bloco') && regs.includes('Não Regulado');
-                }
-
-                el.classList.toggle('filtered-out', !show);
-                if (show) count++;
-            });
-
-            document.getElementById('municipios-filtrados').textContent = count;
-        }
-
-        function limparFiltros() {
-            document.querySelectorAll('.filter-option input[type="checkbox"]').forEach(cb => cb.checked = true);
-            aplicarFiltros();
-        }
-
-        function atualizarEstatisticas() {
-            const total = document.querySelectorAll('.municipio').length;
-            const regulados = dadosMunicipios.filter(m => m.regulacao === 'Regulado').length; // Não Regulado has capital R in data
-            document.getElementById('total-municipios').textContent = total;
-            document.getElementById('municipios-filtrados').textContent = total;
-            document.getElementById('municipios-regulados').textContent = regulados;
-        }
-
-        document.addEventListener('DOMContentLoaded', inicializarApp);
-
-        // ── ZOOM & PAN ─────────────────────────────────────────
-        function inicializarZoom() {
-            const wrap   = document.getElementById('map-wrap');
-            const canvas = document.getElementById('map-canvas');
-            const svg    = document.getElementById('mapa-alagoas');
-
-            let scale = 1, minScale = 0.5, maxScale = 8;
-            let tx = 0, ty = 0;
-            let dragging = false, startX, startY, startTx, startTy;
-
-            function applyTransform() {
-                canvas.style.transformOrigin = '50% 50%';
-                canvas.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
+            if (itensBusca.length === 0) {
+                const li = document.createElement('li');
+                li.className = 'vazio';
+                li.textContent = 'Nenhum município encontrado';
+                listaBusca.appendChild(li);
+                return;
             }
 
-            function clampTranslation() {
+            itensBusca.forEach(nome => {
+                const li = document.createElement('li');
+                const dot = document.createElement('span');
+                dot.className = 'dot';
+                dot.style.background = corPrestadora(dadosDe(nome).distribuicao);
+                li.appendChild(dot);
+                li.appendChild(document.createTextNode(nome));
+                // mousedown (não click) para agir antes do blur do input
+                li.addEventListener('mousedown', e => { e.preventDefault(); escolherMunicipio(nome); });
+                listaBusca.appendChild(li);
+            });
+        }
+
+        function abrirListaBusca(filtro) {
+            renderizarListaBusca(filtro || '');
+            listaBusca.classList.add('open');
+        }
+
+        function fecharListaBusca() {
+            listaBusca.classList.remove('open');
+            idxAtivo = -1;
+        }
+
+        function escolherMunicipio(nome) {
+            fecharListaBusca();
+            selecionarMunicipio(nome);
+            zoomParaMunicipio(nome);
+            inputBusca.blur();
+        }
+
+        function moverAtivo(delta) {
+            const itens = Array.from(listaBusca.querySelectorAll('li:not(.vazio)'));
+            if (!itens.length) return;
+            idxAtivo = (idxAtivo + delta + itens.length) % itens.length;
+            itens.forEach((li, i) => li.classList.toggle('ativo', i === idxAtivo));
+            itens[idxAtivo].scrollIntoView({ block: 'nearest' });
+        }
+
+        function inicializarBusca() {
+            inputBusca.addEventListener('input', () => {
+                abrirListaBusca(inputBusca.value);
+                atualizarBotaoLimparBusca();
+            });
+            inputBusca.addEventListener('focus', () => abrirListaBusca(inputBusca.value));
+            inputBusca.addEventListener('keydown', e => {
+                if (e.key === 'ArrowDown') { e.preventDefault(); moverAtivo(1); }
+                else if (e.key === 'ArrowUp') { e.preventDefault(); moverAtivo(-1); }
+                else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (idxAtivo >= 0 && itensBusca[idxAtivo]) escolherMunicipio(itensBusca[idxAtivo]);
+                    else if (itensBusca.length === 1) escolherMunicipio(itensBusca[0]);
+                }
+                else if (e.key === 'Escape') { fecharListaBusca(); inputBusca.blur(); }
+            });
+
+            // botão ▾ abre/fecha a lista completa
+            btnToggle.addEventListener('mousedown', e => {
+                e.preventDefault();
+                if (listaBusca.classList.contains('open')) fecharListaBusca();
+                else { abrirListaBusca(''); inputBusca.focus(); }
+            });
+
+            btnLimparBusca.addEventListener('mousedown', e => {
+                e.preventDefault();
+                inputBusca.value = '';
+                atualizarBotaoLimparBusca();
+                abrirListaBusca('');
+                inputBusca.focus();
+            });
+
+            // clique fora fecha a lista
+            document.addEventListener('mousedown', e => {
+                if (!document.getElementById('search-box').contains(e.target)) fecharListaBusca();
+            });
+        }
+
+        /* ════════════════════════════════════════════════════════════
+           ZOOM & PAN
+           ════════════════════════════════════════════════════════════ */
+        const mapa = (function () {
+            const PREENCHIMENTO = 0.94; // quanto do espaço a posição inicial ocupa (0–1)
+            const ZOOM_MAX = 9;         // aproximação máxima em relação ao enquadramento inicial
+            const ZOOM_OUT_MAX = 1.8;   // afastamento máximo em relação ao enquadramento inicial
+            let wrap, svgEl;
+            let bboxConteudo = null;    // bounding box do mapa em unidades do viewBox
+            let vb = { x: 0, y: 0, w: 800, h: 1200 };  // viewBox atual (é o que dá o zoom NÍTIDO)
+            let larguraFit = 800;       // largura do viewBox no enquadramento inicial
+            let arrastando = false, sx = 0, sy = 0, vbIni = null;
+            let distArrasto = 0;        // distância percorrida no último gesto (px)
+            let lastDist = null;        // pinça (touch)
+            let interagiu = false;      // usuário já moveu/deu zoom manualmente?
+            let animId = null;          // animação em andamento (requestAnimationFrame)
+
+            const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+
+            // aplica o viewBox no SVG. O navegador agrupa a repintura por frame,
+            // então chamar isto a cada evento de roda/arrasto é barato e fluido.
+            function aplicarJa() {
+                svgEl.setAttribute('viewBox', vb.x + ' ' + vb.y + ' ' + vb.w + ' ' + vb.h);
+            }
+            const agendarAplicar = aplicarJa;
+
+            function pararAnimacao() {
+                if (animId !== null) { cancelAnimationFrame(animId); animId = null; }
+            }
+
+            // viewBox que faz o desenho preencher ~94% do espaço, na proporção do container
+            function viewBoxInicial() {
                 const ww = wrap.offsetWidth, wh = wrap.offsetHeight;
-                const sw = ww * scale;
-                const sh = wh * scale;
-                const maxTx = Math.max(sw * 0.6, ww * 0.5);
-                const maxTy = Math.max(sh * 0.6, wh * 0.5);
-                tx = Math.max(-maxTx, Math.min(maxTx, tx));
-                ty = Math.max(-maxTy, Math.min(maxTy, ty));
+                const bb = bboxConteudo;
+                if (!bb || !ww || !wh) return { x: 0, y: 0, w: 800, h: 1200 };
+                const aspecto = ww / wh;
+                let w = bb.width / PREENCHIMENTO;
+                let h = bb.height / PREENCHIMENTO;
+                // expande o lado menor para casar com a proporção do container (sem cortar o mapa)
+                if (w / h < aspecto) w = h * aspecto; else h = w / aspecto;
+                const cx = bb.x + bb.width / 2, cy = bb.y + bb.height / 2;
+                return { x: cx - w / 2, y: cy - h / 2, w, h };
             }
 
-            function zoomAt(cx, cy, delta) {
-                const newScale = Math.min(maxScale, Math.max(minScale, scale * (1 + delta)));
-                const ratio    = newScale / scale;
-                // Adjust translation so zoom is centred at (cx, cy) relative to wrap centre
-                const wcx = wrap.offsetWidth  / 2;
-                const wcy = wrap.offsetHeight / 2;
-                tx = cx - ratio * (cx - tx);
-                ty = cy - ratio * (cy - ty);
-                scale = newScale;
-                clampTranslation();
-                applyTransform();
+            function larguraMin() { return larguraFit / ZOOM_MAX; }
+            function larguraMax() { return larguraFit * ZOOM_OUT_MAX; }
+
+            // impede que o mapa seja arrastado para completamente fora de vista
+            function limitarPan() {
+                const bb = bboxConteudo;
+                const cx = vb.x + vb.w / 2, cy = vb.y + vb.h / 2;
+                const ncx = clamp(cx, bb.x, bb.x + bb.width);
+                const ncy = clamp(cy, bb.y, bb.y + bb.height);
+                vb.x += ncx - cx; vb.y += ncy - cy;
             }
 
-            // Mouse wheel zoom
-            wrap.addEventListener('wheel', function(e) {
-                e.preventDefault();
-                const rect  = wrap.getBoundingClientRect();
-                const cx    = e.clientX - rect.left - wrap.offsetWidth  / 2;
-                const cy    = e.clientY - rect.top  - wrap.offsetHeight / 2;
-                const delta = e.deltaY < 0 ? 0.15 : -0.15;
-                zoomAt(cx, cy, delta);
-            }, { passive: false });
+            // converte um ponto da tela (clientX/Y) para coordenadas do viewBox
+            function clienteParaUser(clientX, clientY) {
+                const r = svgEl.getBoundingClientRect();
+                const s = Math.min(r.width / vb.w, r.height / vb.h); // px por unidade (meet)
+                const offX = (r.width - vb.w * s) / 2;
+                const offY = (r.height - vb.h * s) / 2;
+                return {
+                    ux: vb.x + (clientX - r.left - offX) / s,
+                    uy: vb.y + (clientY - r.top - offY) / s
+                };
+            }
 
-            // Drag to pan
-            wrap.addEventListener('mousedown', function(e) {
-                if (e.button !== 0) return;
-                dragging = true;
-                startX = e.clientX; startY = e.clientY;
-                startTx = tx; startTy = ty;
-                wrap.style.cursor = 'grabbing';
-                e.preventDefault();
-            });
+            // zoom mantendo fixo o ponto (clientX/Y) sob o cursor. fator>1 aproxima
+            function zoomEm(clientX, clientY, fator) {
+                pararAnimacao();
+                const { ux, uy } = clienteParaUser(clientX, clientY);
+                let nw = clamp(vb.w / fator, larguraMin(), larguraMax());
+                const k = nw / vb.w;               // fator efetivo aplicado
+                const nh = vb.h * k;
+                vb.x = ux - (ux - vb.x) * k;
+                vb.y = uy - (uy - vb.y) * k;
+                vb.w = nw; vb.h = nh;
+                interagiu = true;
+                limitarPan();
+                agendarAplicar();
+            }
 
-            document.addEventListener('mousemove', function(e) {
-                if (!dragging) return;
-                tx = startTx + (e.clientX - startX);
-                ty = startTy + (e.clientY - startY);
-                clampTranslation();
-                applyTransform();
-            });
+            // zoom centrado no meio do mapa (botões +/−)
+            function zoomCentro(fator) {
+                const r = wrap.getBoundingClientRect();
+                zoomEm(r.left + r.width / 2, r.top + r.height / 2, fator);
+            }
 
-            document.addEventListener('mouseup', function() {
-                if (dragging) { dragging = false; wrap.style.cursor = 'grab'; }
-            });
-
-            // Touch support
-            let lastDist = null;
-            wrap.addEventListener('touchstart', function(e) {
-                if (e.touches.length === 1) {
-                    dragging = true;
-                    startX = e.touches[0].clientX; startY = e.touches[0].clientY;
-                    startTx = tx; startTy = ty;
-                } else if (e.touches.length === 2) {
-                    dragging = false;
-                    lastDist = Math.hypot(
-                        e.touches[0].clientX - e.touches[1].clientX,
-                        e.touches[0].clientY - e.touches[1].clientY
-                    );
+            // anima o viewBox até um destino (easeOutCubic).
+            // Um setTimeout de segurança garante o estado final mesmo se o rAF não avançar.
+            let fbTimer = null;
+            function animarPara(destino, ms) {
+                pararAnimacao();
+                if (fbTimer) { clearTimeout(fbTimer); fbTimer = null; }
+                ms = ms || 480;
+                const ini = { x: vb.x, y: vb.y, w: vb.w, h: vb.h };
+                const t0 = performance.now();
+                function passo(now) {
+                    let t = (now - t0) / ms; if (t > 1) t = 1;
+                    const e = 1 - Math.pow(1 - t, 3);
+                    vb.x = ini.x + (destino.x - ini.x) * e;
+                    vb.y = ini.y + (destino.y - ini.y) * e;
+                    vb.w = ini.w + (destino.w - ini.w) * e;
+                    vb.h = ini.h + (destino.h - ini.h) * e;
+                    aplicarJa();
+                    animId = (t < 1) ? requestAnimationFrame(passo) : null;
                 }
-            }, { passive: true });
+                animId = requestAnimationFrame(passo);
+                fbTimer = setTimeout(() => {
+                    fbTimer = null;
+                    pararAnimacao();
+                    vb = { x: destino.x, y: destino.y, w: destino.w, h: destino.h };
+                    aplicarJa();
+                }, ms + 140);
+            }
 
-            wrap.addEventListener('touchmove', function(e) {
-                if (e.touches.length === 1 && dragging) {
-                    tx = startTx + (e.touches[0].clientX - startX);
-                    ty = startTy + (e.touches[0].clientY - startY);
-                    clampTranslation();
-                    applyTransform();
-                } else if (e.touches.length === 2 && lastDist !== null) {
-                    const dist = Math.hypot(
-                        e.touches[0].clientX - e.touches[1].clientX,
-                        e.touches[0].clientY - e.touches[1].clientY
-                    );
-                    const delta = (dist - lastDist) / lastDist;
-                    zoomAt(0, 0, delta);
-                    lastDist = dist;
-                }
-            }, { passive: true });
+            // aplica a posição inicial imediatamente (sem animação) — carga/redimensionamento
+            function aplicarInicial() {
+                pararAnimacao();
+                vb = viewBoxInicial();
+                larguraFit = vb.w;
+                interagiu = false;
+                aplicarJa();
+            }
 
-            wrap.addEventListener('touchend', function() {
-                dragging = false;
-                lastDist = null;
-            }, { passive: true });
+            // volta à posição inicial com animação
+            function resetar() {
+                const alvo = viewBoxInicial();
+                larguraFit = alvo.w;
+                interagiu = false;
+                animarPara(alvo);
+            }
 
-            // Button controls
-            document.getElementById('btn-zoom-in').addEventListener('click',
-                () => zoomAt(0, 0, 0.3));
-            document.getElementById('btn-zoom-out').addEventListener('click',
-                () => zoomAt(0, 0, -0.3));
-            document.getElementById('btn-zoom-reset').addEventListener('click', function() {
-                scale = 1; tx = 0; ty = 0; applyTransform();
-            });
+            // enquadra (com animação) um bounding box do mapa — usado pela busca
+            function enquadrar(bb) {
+                const aspecto = vb.w / vb.h;
+                let w = bb.width * 3.4;
+                let h = w / aspecto;
+                if (h < bb.height * 3.4) { h = bb.height * 3.4; w = h * aspecto; }
+                w = clamp(w, larguraMin(), larguraMax());
+                h = w / aspecto;
+                const cx = bb.x + bb.width / 2, cy = bb.y + bb.height / 2;
+                interagiu = true;
+                animarPara({ x: cx - w / 2, y: cy - h / 2, w, h });
+            }
 
-            // Initial fit
-            applyTransform();
+            function init() {
+                wrap  = document.getElementById('map-wrap');
+                svgEl = document.getElementById('mapa-alagoas');
+                svgEl.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+                try { bboxConteudo = svgEl.getBBox(); }
+                catch (e) { bboxConteudo = { x: 0, y: 0, width: 800, height: 1200 }; }
+
+                wrap.addEventListener('wheel', e => {
+                    e.preventDefault();
+                    zoomEm(e.clientX, e.clientY, e.deltaY < 0 ? 1.18 : 1 / 1.18);
+                }, { passive: false });
+
+                wrap.addEventListener('dblclick', e => {
+                    e.preventDefault();
+                    zoomEm(e.clientX, e.clientY, 1.8);
+                });
+
+                wrap.addEventListener('mousedown', e => {
+                    if (e.button !== 0) return;
+                    pararAnimacao();
+                    arrastando = true;
+                    distArrasto = 0;
+                    sx = e.clientX; sy = e.clientY;
+                    vbIni = { x: vb.x, y: vb.y, w: vb.w, h: vb.h };
+                    wrap.style.cursor = 'grabbing';
+                    e.preventDefault();
+                });
+
+                document.addEventListener('mousemove', e => {
+                    if (!arrastando) return;
+                    const dxPx = e.clientX - sx, dyPx = e.clientY - sy;
+                    distArrasto = Math.max(distArrasto, Math.hypot(dxPx, dyPx));
+                    if (distArrasto > 3) { tooltip.classList.remove('show'); interagiu = true; }
+                    const r = svgEl.getBoundingClientRect();
+                    const s = Math.min(r.width / vbIni.w, r.height / vbIni.h);
+                    vb.x = vbIni.x - dxPx / s;
+                    vb.y = vbIni.y - dyPx / s;
+                    limitarPan();
+                    agendarAplicar();
+                });
+
+                document.addEventListener('mouseup', () => {
+                    if (arrastando) { arrastando = false; wrap.style.cursor = 'grab'; }
+                });
+
+                // toque: 1 dedo arrasta, 2 dedos dão zoom (pinça)
+                wrap.addEventListener('touchstart', e => {
+                    pararAnimacao();
+                    if (e.touches.length === 1) {
+                        arrastando = true;
+                        distArrasto = 0;
+                        sx = e.touches[0].clientX; sy = e.touches[0].clientY;
+                        vbIni = { x: vb.x, y: vb.y, w: vb.w, h: vb.h };
+                    } else if (e.touches.length === 2) {
+                        arrastando = false;
+                        lastDist = Math.hypot(
+                            e.touches[0].clientX - e.touches[1].clientX,
+                            e.touches[0].clientY - e.touches[1].clientY);
+                    }
+                }, { passive: true });
+
+                wrap.addEventListener('touchmove', e => {
+                    if (e.touches.length === 1 && arrastando) {
+                        const dxPx = e.touches[0].clientX - sx, dyPx = e.touches[0].clientY - sy;
+                        distArrasto = Math.max(distArrasto, Math.hypot(dxPx, dyPx));
+                        if (distArrasto > 3) interagiu = true;
+                        const r = svgEl.getBoundingClientRect();
+                        const s = Math.min(r.width / vbIni.w, r.height / vbIni.h);
+                        vb.x = vbIni.x - dxPx / s;
+                        vb.y = vbIni.y - dyPx / s;
+                        limitarPan();
+                        agendarAplicar();
+                    } else if (e.touches.length === 2 && lastDist !== null) {
+                        const t = e.touches;
+                        const dist = Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
+                        const midX = (t[0].clientX + t[1].clientX) / 2;
+                        const midY = (t[0].clientY + t[1].clientY) / 2;
+                        zoomEm(midX, midY, dist / lastDist);
+                        lastDist = dist;
+                    }
+                }, { passive: true });
+
+                wrap.addEventListener('touchend', () => { arrastando = false; lastDist = null; }, { passive: true });
+
+                document.getElementById('btn-zoom-in').addEventListener('click', () => zoomCentro(1.35));
+                document.getElementById('btn-zoom-out').addEventListener('click', () => zoomCentro(1 / 1.35));
+                document.getElementById('btn-zoom-reset').addEventListener('click', resetar);
+
+                // redimensionamento: reajusta o enquadramento inicial se o usuário ainda não mexeu
+                let resizeTimer = null;
+                window.addEventListener('resize', () => {
+                    clearTimeout(resizeTimer);
+                    resizeTimer = setTimeout(() => { if (!interagiu) aplicarInicial(); }, 120);
+                });
+
+                aplicarInicial();
+            }
+
+            return {
+                init,
+                resetar,
+                enquadrar,
+                marcarInteracao: () => { interagiu = true; },
+                foiArrasto: () => distArrasto > 5
+            };
+        })();
+
+        // centraliza e aproxima um município (usado pela busca)
+        function zoomParaMunicipio(nome) {
+            const el = pathDe(nome);
+            if (!el) return;
+            let bb;
+            try { bb = el.getBBox(); } catch (e) { return; }
+            mapa.enquadrar(bb);
         }
     </script>
 </body>
