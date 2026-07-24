@@ -713,6 +713,77 @@
         }
         .leaflet-popup-content { font-family: 'DM Sans', sans-serif; font-size: 13px; }
         .leaflet-popup-content b { color: #003B7A; }
+
+        /* ── Ferramenta: pingar coordenada ───────────────── */
+        .pino-panel {
+            position: absolute;
+            left: 14px; bottom: 20px;
+            z-index: 500;
+            background: rgba(255,255,255,.97);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,.12);
+            padding: 12px 14px;
+            width: 250px;
+            font-size: 13px;
+        }
+        .pino-panel h4 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 12px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: .6px;
+            color: var(--muted); margin-bottom: 9px;
+        }
+        .pino-row { display: flex; gap: 6px; }
+        .pino-panel input {
+            flex: 1; min-width: 0;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 8px 10px;
+            font-family: 'DM Sans', sans-serif; font-size: 13px;
+            outline: none;
+        }
+        .pino-panel input:focus { border-color: var(--accent); }
+        .pino-btn {
+            border: none; border-radius: 8px;
+            background: #003B7A; color: #fff;
+            font-weight: 700; font-size: 13px;
+            padding: 8px 12px; cursor: pointer;
+            flex-shrink: 0;
+        }
+        .pino-btn:hover { background: #002A5A; }
+        .pino-hint { color: var(--muted); font-size: 11px; margin-top: 6px; line-height: 1.35; }
+        .pino-erro { color: #DC2626; font-size: 11px; margin-top: 6px; display: none; }
+        .pino-lista { margin-top: 8px; max-height: 130px; overflow-y: auto; }
+        .pino-lista:empty { margin-top: 0; }
+        .pino-li {
+            display: flex; align-items: center; gap: 6px;
+            padding: 4px 0; border-top: 1px solid var(--border);
+            font-size: 12px;
+        }
+        .pino-li .coord { flex: 1; font-family: 'DM Sans', monospace; color: var(--text); cursor: pointer; }
+        .pino-li .coord:hover { color: var(--accent); }
+        .pino-li .rm {
+            border: none; background: transparent; color: var(--muted);
+            cursor: pointer; font-size: 15px; line-height: 1; padding: 0 2px;
+        }
+        .pino-li .rm:hover { color: #DC2626; }
+        .pino-limpar {
+            margin-top: 8px; width: 100%;
+            border: 1px solid var(--border); border-radius: 8px;
+            background: #fff; color: var(--muted);
+            font-weight: 600; font-size: 12px; padding: 6px; cursor: pointer;
+            display: none;
+        }
+        .pino-limpar:hover { background: #FEF2F2; color: #DC2626; border-color: #FCA5A5; }
+
+        /* pino (marcador) desenhado por CSS, sem imagem externa */
+        .pino-marca {
+            width: 16px; height: 16px;
+            background: #EF4444; border: 2px solid #fff;
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            box-shadow: 0 2px 5px rgba(0,0,0,.45);
+        }
     </style>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
           integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
@@ -964,6 +1035,18 @@
             <h4>Áreas de Concessão</h4>
             <div id="osm-legend-items"></div>
             <div class="leg-hint">Clique num item para mostrar/ocultar. Clique numa área no mapa para ver os detalhes.</div>
+        </div>
+
+        <div class="pino-panel" id="pino-panel">
+            <h4>Pingar Coordenada</h4>
+            <div class="pino-row">
+                <input type="text" id="pino-input" placeholder="-9.5713, -36.7820" autocomplete="off" spellcheck="false">
+                <button class="pino-btn" id="pino-add">Pingar</button>
+            </div>
+            <div class="pino-erro" id="pino-erro">Coordenada inválida. Use: latitude, longitude</div>
+            <div class="pino-hint">Digite <b>latitude, longitude</b> (ex.: <b>-9.5713, -36.7820</b>). Aceita colar do Google Maps.</div>
+            <div class="pino-lista" id="pino-lista"></div>
+            <button class="pino-limpar" id="pino-limpar">Limpar todos os pontos</button>
         </div>
     </div>
 
@@ -1750,6 +1833,75 @@
                         camadaMunic.setStyle(estiloMunic(e.name === 'Satélite'));
                     });
                 }
+
+                // ── Ferramenta: pingar coordenadas (temporário) ──
+                const pinoLayer = L.layerGroup().addTo(mapaOSM);
+                const pinoIcon = L.divIcon({
+                    className: 'pino-temp',
+                    html: '<div class="pino-marca"></div>',
+                    iconSize: [16, 16], iconAnchor: [3, 16], popupAnchor: [5, -16]
+                });
+                const listaEl  = document.getElementById('pino-lista');
+                const limparEl = document.getElementById('pino-limpar');
+                const inputEl  = document.getElementById('pino-input');
+                const erroEl   = document.getElementById('pino-erro');
+                const pinos = [];
+
+                function parseCoord(txt) {
+                    // aceita "lat, lon", "lat lon", vírgula decimal, e link do Google Maps (@lat,lon)
+                    let s = (txt || '').trim();
+                    const at = s.match(/@(-?\d+[.,]?\d*),(-?\d+[.,]?\d*)/);
+                    if (at) s = at[1] + ',' + at[2];
+                    const nums = s.match(/-?\d+(?:[.,]\d+)?/g);
+                    if (!nums || nums.length < 2) return null;
+                    const lat = parseFloat(nums[0].replace(',', '.'));
+                    const lon = parseFloat(nums[1].replace(',', '.'));
+                    if (isNaN(lat) || isNaN(lon)) return null;
+                    if (lat < -90 || lat > 90 || lon < -180 || lon > 180) return null;
+                    return [lat, lon];
+                }
+
+                function renderLista() {
+                    listaEl.innerHTML = '';
+                    pinos.forEach((p, i) => {
+                        const li = document.createElement('div');
+                        li.className = 'pino-li';
+                        li.innerHTML = '<span class="coord">📍 ' + p.lat.toFixed(5) + ', ' + p.lon.toFixed(5) + '</span>' +
+                                       '<button class="rm" title="Remover">✕</button>';
+                        li.querySelector('.coord').addEventListener('click', () => mapaOSM.setView([p.lat, p.lon], 14));
+                        li.querySelector('.rm').addEventListener('click', () => {
+                            pinoLayer.removeLayer(p.marker);
+                            pinos.splice(i, 1);
+                            renderLista();
+                        });
+                        listaEl.appendChild(li);
+                    });
+                    limparEl.style.display = pinos.length ? 'block' : 'none';
+                }
+
+                function pingar() {
+                    const c = parseCoord(inputEl.value);
+                    if (!c) { erroEl.style.display = 'block'; return; }
+                    erroEl.style.display = 'none';
+                    const [lat, lon] = c;
+                    const marker = L.marker([lat, lon], { icon: pinoIcon })
+                        .addTo(pinoLayer)
+                        .bindPopup('<b>Ponto</b><br>' + lat.toFixed(5) + ', ' + lon.toFixed(5));
+                    pinos.push({ lat, lon, marker });
+                    renderLista();
+                    inputEl.value = '';
+                    mapaOSM.setView([lat, lon], Math.max(mapaOSM.getZoom(), 13));
+                    marker.openPopup();
+                }
+
+                document.getElementById('pino-add').addEventListener('click', pingar);
+                inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') pingar(); });
+                inputEl.addEventListener('input', () => { erroEl.style.display = 'none'; });
+                limparEl.addEventListener('click', () => {
+                    pinoLayer.clearLayers();
+                    pinos.length = 0;
+                    renderLista();
+                });
 
                 // legenda / toggles
                 const box = document.getElementById('osm-legend-items');
